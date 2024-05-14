@@ -62,6 +62,83 @@
   }
 </style>
 
+<script>
+  const mosaicID = '44FD959F9F2ECF4D'; // トランザクション検索で使用するモザイクID
+
+async function searchAndDisplayTransaction(address, type) {
+    const criteria = {
+        address: sym.Address.createFromRawAddress(address),
+        group: sym.TransactionGroup.Confirmed,
+        pageSize: 1,
+        order: sym.Order.Desc,
+        transferMosaicId: new sym.MosaicId(mosaicID)
+    };
+
+    try {
+        const txs = await txRepo.search(criteria).toPromise();
+        const epochAdjustment = await repo.getEpochAdjustment().toPromise();
+
+        if (txs.data.length > 0) {
+            const message = txs.data[0].message.payload;
+            const messageElement = document.getElementById("message");
+            if (messageElement) {
+                messageElement.textContent = ` ${message}`;
+            }
+        } else {
+            const messageElement = document.getElementById("message");
+            if (messageElement) {
+                messageElement.textContent = 'メッセージ: トランザクションが見つかりませんでした。';
+            }
+        }
+    } catch (error) {
+        console.error(error);
+        alert("トランザクション検索中にエラーが発生しました。");
+    }
+}
+function createAndSendTransaction() {
+    const recipientAddress = sym.Address.createFromRawAddress(document.getElementById('recipientAddress').value);
+    const amount = parseInt(document.getElementById('amount').value);
+
+    // アカウントを生成し、トランザクションを作成
+    const senderAccount = sym.Account.createFromPrivateKey(sender, sym.NetworkType.MAIN_NET);
+    const transferTransaction = sym.TransferTransaction.create(
+        sym.Deadline.create(epochAdjustment, 6),
+        recipientAddress, // トークンの宛先アドレス
+        [new sym.Mosaic(new sym.MosaicId('44FD959F9F2ECF4D'), sym.UInt64.fromUint(amount))], // 送信するモザイク
+        createMessage(amount), // 送信数量に応じたメッセージを生成
+        sym.NetworkType.MAIN_NET
+    ).setMaxFee(100);
+
+    // トランザクションに署名
+    const signedTx = senderAccount.sign(transferTransaction, generationHash);
+
+    // ノードへ署名されたトランザクションをアナウンス
+    new sym.TransactionHttp(NODE)
+        .announce(signedTx)
+        .subscribe(
+            (x) => {
+                console.log(x);
+                alert("トランザクションが正常に送信されました！");
+                // トランザクションが成功したら、トークン数量を表示
+                getAndDisplayTokenBalance(document.getElementById('recipientAddress').value);
+
+                // トランザクションを検索して表示
+                searchAndDisplayTransaction(document.getElementById('recipientAddress').value, "xymzap");
+            },
+            (err) => {
+                console.error(err);
+                alert("トランザクションの送信中にエラーが発生しました。");
+            }
+        );
+}
+
+
+</script>
+
+<div id="transactionDetails">
+    <p id="message">message: </p>
+</div>
+
 
 </body>
 </html>
