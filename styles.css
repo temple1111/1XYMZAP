@@ -263,6 +263,8 @@ button#toggleTableOfContents:hover {
         writing-mode: horizontal-tb; /* 横書きに変更 */
         text-orientation: mixed; /* テキスト方向を混在 */
         background-color: #f9f9f9; /* 背景色を設定 */
+        margin-top: 80px; /* さらに下に配置 */
+        left: -2px; /* 少し左に動かす */
     }
 
     #message {
