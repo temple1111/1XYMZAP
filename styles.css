@@ -37,11 +37,11 @@ body {
 /* styles.css */
 /* トークン保有数に応じた背景スタイル */
 .background-00 {
-    background-image: url('0.png'); /* トークン保有数が0の場合の背景画像 */
+    background-image: url('8.png'); /* トークン保有数が0の場合の背景画像 */
 }
 
 .background-0 {
-    background-image: url('0.png'); /* トークン保有数が0の場合の背景画像 */
+    background-image: url('8.png'); /* トークン保有数が0の場合の背景画像 */
 }
 
 .background-1 {
