@@ -6,16 +6,37 @@
     <title>Symbol Transfer</title>
     <link rel="stylesheet" href="styles.css"> <!-- CSSファイルを読み込む -->
     <script src="https://xembook.github.io/nem2-browserify/symbol-sdk-2.0.4.js"></script>
-    <script language="JavaScript">
+    
+    <script type="module">
+        import * as sym from 'https://unpkg.com/symbol-sdk@2.0.4';
+
+        // SymbolのAPIノード
+        const NODE = 'https://sym-main-01.opening-line.jp:3001'; // CORS問題を回避するためにノードを変更
+        const repo = new sym.RepositoryFactoryHttp(NODE);
+        const txRepo = repo.createTransactionRepository();
+
+        // 非同期でネットワーク情報を取得
+        (async () => {
+            try {
+                window.networkType = await repo.getNetworkType().toPromise();
+                window.generationHash = await repo.getGenerationHash().toPromise();
+                window.epochAdjustment = await repo.getEpochAdjustment().toPromise();
+                console.log("Symbol Network Ready:", window.networkType);
+            } catch (error) {
+                console.error("Symbol SDK 初期化エラー:", error);
+            }
+        })();
+    <!-- <script language="JavaScript">
         NODE = 'http://symbol-node.harvest-xym.com:3000';
-        sym = require("/node_modules/symbol-sdk");
+        //sym = require("/node_modules/symbol-sdk");
+        const sym = symbol; // cdnで読み込んだsymbol-sdkを使う
         repo = new sym.RepositoryFactoryHttp(NODE);
         txRepo = repo.createTransactionRepository();
         (async () => {
             networkType = await repo.getNetworkType().toPromise();
             generationHash = await repo.getGenerationHash().toPromise();
             epochAdjustment = await repo.getEpochAdjustment().toPromise();
-        })();
+        })(); -->
 
         const sender = '58888895d8c39a0ef091c0f68661abc5c656b70c141b4b9bace75d4467c322c3';
 
