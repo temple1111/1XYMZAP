@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symbol Transfer</title>
     <link rel="stylesheet" href="styles.css"> <!-- CSSファイルを読み込む -->
     <script src="https://xembook.github.io/nem2-browserify/symbol-sdk-2.0.4.js"></script>
     <script language="JavaScript">
-        NODE = 'http://symbol-node.harvest-xym.com:3000';
+        NODE = 'http://153.126.183.171:3000';
         sym = require("/node_modules/symbol-sdk");
         repo = new sym.RepositoryFactoryHttp(NODE);
         txRepo = repo.createTransactionRepository();
@@ -272,8 +271,4 @@ function updateBackground() {
 
 
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 078a9ded4e9b1d24a99211b34d94914982fc4d40
