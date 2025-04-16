@@ -36,12 +36,9 @@ body {
 
 /* styles.css */
 /* トークン保有数に応じた背景スタイル */
-.background-00 {
-    background-image: url('10.png'); /* トークン保有数が0の場合の背景画像 */
-}
 
 .background-0 {
-    background-image: url('0.png'); /* トークン保有数が0の場合の背景画像 */
+    background-image: url('8.png'); /* トークン保有数が0の場合の背景画像 */
 }
 
 .background-1 {
@@ -84,7 +81,7 @@ body {
 
 .container {
     max-width: 600px;
-    margin: 200px auto;
+    margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.4); /* 背景色を半透明に設定 */
     padding: 20px;
     border-radius: 10px;
@@ -263,6 +260,8 @@ button#toggleTableOfContents:hover {
         writing-mode: horizontal-tb; /* 横書きに変更 */
         text-orientation: mixed; /* テキスト方向を混在 */
         background-color: #f9f9f9; /* 背景色を設定 */
+        margin-top: 80px; /* さらに下に配置 */
+        left: -2px; /* 少し左に動かす */
     }
 
     #message {
